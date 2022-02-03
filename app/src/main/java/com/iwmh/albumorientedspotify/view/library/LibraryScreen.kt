@@ -17,7 +17,6 @@ import com.iwmh.albumorientedspotify.Screen
 @Composable
 fun LibraryScreen(navController: NavController) {
     val viewModel: LibraryScreenViewModel = hiltViewModel()
-//    val uiState by viewModel.uiState.collectAsState()
 
     val lazyPagingItems = viewModel.pagingFlow.collectAsLazyPagingItems()
 
@@ -31,7 +30,6 @@ fun LibraryScreen(navController: NavController) {
     ) {
         Column {
             Text(text = "Your library.")
-            Text(text = lazyPagingItems.itemCount.toString())
             LazyColumn {
                 items(lazyPagingItems) { item ->
                     ShowCardSquare(
