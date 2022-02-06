@@ -1,4 +1,4 @@
-package com.iwmh.albumorientedspotify.view.episodes
+package com.iwmh.albumorientedspotify.view.playlist
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.lazy.LazyColumn
@@ -12,19 +12,16 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
-import com.iwmh.albumorientedspotify.Screen
-import java.net.URLEncoder
-import java.nio.charset.StandardCharsets
 
 @Composable
-fun EpisodesScreen(
+fun PlaylistScreen(
     navController: NavController,
-    showId: String?
+    playlistID: String?
 ) {
-    val viewModel: EpisodesScreenViewModel = hiltViewModel()
-    // Hold the Show ID for this screen.
+    val viewModel: PlaylistScreenViewModel = hiltViewModel()
+    // Hold the Playlist ID for this screen.
     // TODO: Needs better code here.
-    viewModel.showId = showId
+    viewModel.playlistID = playlistID
 
     val lazyPagingItems = viewModel.pagingFlow.collectAsLazyPagingItems()
 
@@ -37,31 +34,33 @@ fun EpisodesScreen(
         }
     ) {
         Column {
-            Text(text = "Episodes")
+            Text(text = "Albums.")
             Text(text = lazyPagingItems.itemCount.toString())
             LazyColumn {
-                items(lazyPagingItems) { episodeItem ->
-                    EpisodeCardSquare(
-                        episodeName = episodeItem!!.name,
-                        imageUrl = episodeItem!!.images[2].url,
-                        description = episodeItem!!.description,
-                        duration = episodeItem!!.duration_ms,
-                        releaseDate = episodeItem!!.release_date,
+                items(lazyPagingItems) { trackItem->
+                    AlbumCardSquare(
+                        albumID = trackItem?.track?.album?.id,
+                        albumName = trackItem?.track?.album?.name,
+                        imageUrl = trackItem?.track?.album!!.images[2].url,
+                        artists = trackItem?.track?.album!!.artists,
+                        releaseDate = trackItem?.track?.album!!.release_date,
                         // Navigate to episode-detail screen.
+                        /*
                         onClick = {
                             val encodedImageUrl
-                                    = URLEncoder.encode(episodeItem!!.images[2].url, StandardCharsets.UTF_8.toString())
+                                    = URLEncoder.encode(trackItem!!.images[2].url, StandardCharsets.UTF_8.toString())
                             val encodedDescription
-                                    = URLEncoder.encode(episodeItem!!.description, StandardCharsets.UTF_8.toString())
+                                    = URLEncoder.encode(trackItem!!.description, StandardCharsets.UTF_8.toString())
                             navController.navigate(
                                 "${Screen.EpisodeDetail.route}/" +
-                                        "${episodeItem!!.name}/" +
+                                        "${trackItem!!.name}/" +
                                         "${encodedImageUrl}/" +
                                         "${encodedDescription}/" +
-                                        "${episodeItem!!.duration_ms}/" +
-                                        "${episodeItem!!.release_date}"
+                                        "${trackItem!!.duration_ms}/" +
+                                        "${trackItem!!.release_date}"
                             )
                         }
+                         */
                     )
                 }
             }

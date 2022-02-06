@@ -38,7 +38,7 @@ fun LibraryScreen(navController: NavController) {
                         // Save "playlistId" for PlaylistScreen to use.
                         viewModel.saveShowId(item?.id)
                         // Navigate to PlaylistScreen.
-                        navController.navigate("${Screen.Episodes.route}/${item?.id}")
+                        navController.navigate("${Screen.Playlist.route}/${item?.id}")
                     }
                 }
             }

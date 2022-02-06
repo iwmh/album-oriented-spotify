@@ -9,9 +9,9 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.iwmh.albumorientedspotify.util.Constants
 import com.iwmh.albumorientedspotify.view.episodedetail.EpisodeDetailScreen
-import com.iwmh.albumorientedspotify.view.episodes.EpisodesScreen
 import com.iwmh.albumorientedspotify.view.home.HomeScreen
 import com.iwmh.albumorientedspotify.view.library.LibraryScreen
+import com.iwmh.albumorientedspotify.view.playlist.PlaylistScreen
 import com.iwmh.albumorientedspotify.view.search.SearchScreen
 import java.net.URLDecoder
 import java.nio.charset.StandardCharsets
@@ -36,15 +36,15 @@ fun MainNavGraph(
             LibraryScreen(navController)
         }
         composable(
-            route = "${Screen.Episodes.route}/{" + Constants.nav_playlistId + "}",
+            route = "${Screen.Playlist.route}/{" + Constants.nav_playlistId + "}",
             arguments = listOf(
                 navArgument(Constants.nav_playlistId){
                     type = NavType.StringType
                 }
             )
         ){ navBackStackEntry ->
-            val showId = navBackStackEntry.arguments?.getString(Constants.nav_playlistId)
-            EpisodesScreen(navController, showId)
+            val playlistID = navBackStackEntry.arguments?.getString(Constants.nav_playlistId)
+            PlaylistScreen(navController, playlistID)
         }
         composable(
             route = "${Screen.EpisodeDetail.route}/" +

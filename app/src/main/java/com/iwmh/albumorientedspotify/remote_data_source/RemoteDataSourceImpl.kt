@@ -1,8 +1,8 @@
 package com.iwmh.albumorientedspotify.remote_data_source
 
-import com.iwmh.albumorientedspotify.repository.model.api.Episode
 import com.iwmh.albumorientedspotify.repository.model.api.PagingObject
 import com.iwmh.albumorientedspotify.repository.model.api.Playlist
+import com.iwmh.albumorientedspotify.repository.model.api.TrackItem
 import javax.inject.Inject
 
 class RemoteDataSourceImpl @Inject constructor(
@@ -28,9 +28,9 @@ class RemoteDataSourceImpl @Inject constructor(
         return apiClient.getUsersPlaylists(initialUrl)
     }
 
-    // Get Show Episodes
-    override suspend fun getShowEpisodes(showId: String?, url: String?): PagingObject<Episode> {
-        return apiClient.getShowEpisodes(showId, url)
+    // Get Playlist's items
+    override suspend fun getPlaylistItems(playlistID: String?, url: String?): PagingObject<TrackItem> {
+        return apiClient.getPlaylistItems(playlistID, url)
     }
 
 

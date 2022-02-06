@@ -1,8 +1,8 @@
 package com.iwmh.albumorientedspotify.remote_data_source
 
-import com.iwmh.albumorientedspotify.repository.model.api.Episode
 import com.iwmh.albumorientedspotify.repository.model.api.PagingObject
 import com.iwmh.albumorientedspotify.repository.model.api.Playlist
+import com.iwmh.albumorientedspotify.repository.model.api.TrackItem
 
 interface WebApiClient {
     // Make sure to call this before every API call.
@@ -11,6 +11,6 @@ interface WebApiClient {
     // Get User's Playlists
     suspend fun getUsersPlaylists(url: String?): PagingObject<Playlist>
 
-    // Get Show Episodes
-    suspend fun getShowEpisodes(showId: String?,  url: String?): PagingObject<Episode>
+    // Get Playlist's items
+    suspend fun getPlaylistItems(playlistID: String?,  url: String?): PagingObject<TrackItem>
 }

@@ -1,4 +1,4 @@
-package com.iwmh.albumorientedspotify.view.episodes
+package com.iwmh.albumorientedspotify.view.playlist
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
@@ -7,7 +7,7 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
 import com.iwmh.albumorientedspotify.remote_data_source.RemoteDataSource
-import com.iwmh.albumorientedspotify.repository.pagingsource.EpisodesScreenPagingSource
+import com.iwmh.albumorientedspotify.repository.pagingsource.PlaylistScreenPagingSource
 import com.iwmh.albumorientedspotify.util.Constants
 import com.iwmh.albumorientedspotify.util.InjectableConstants
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,7 +15,7 @@ import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
 @HiltViewModel
-class EpisodesScreenViewModel @Inject constructor (
+class PlaylistScreenViewModel @Inject constructor (
     savedStateHandle: SavedStateHandle,
     private val remoteDataSource: RemoteDataSource,
     private val injectableConstants: InjectableConstants,
@@ -26,16 +26,16 @@ class EpisodesScreenViewModel @Inject constructor (
     val isRefreshing: StateFlow<Boolean>
         get() = _isRefreshing.asStateFlow()
 
-    // ShowID for this page.
+    // PlaylistID for this page.
     // TODO: Needs better code here.
-    var showId: String? = ""
+    var playlistID: String? = ""
 
     var pagingFlow = Pager(
         PagingConfig(pageSize = 20)
     ){
-        EpisodesScreenPagingSource(
+        PlaylistScreenPagingSource(
 //            savedStateHandle.get(Constants.nav_playlistId),
-            showId,
+            playlistID,
             remoteDataSource,
             injectableConstants
         )
