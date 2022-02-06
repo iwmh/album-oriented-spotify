@@ -7,13 +7,12 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberImagePainter
-import com.iwmh.albumorientedspotify.repository.model.api.Show
+import com.iwmh.albumorientedspotify.repository.model.api.Playlist
 
 @Composable
-fun ShowCardSquare(show: Show?, onClick: () -> Unit){
+fun PlaylistCardSquare(playlist: Playlist?, onClick: () -> Unit){
     val padding = 8.dp
     Row(
         Modifier
@@ -22,7 +21,7 @@ fun ShowCardSquare(show: Show?, onClick: () -> Unit){
             .fillMaxWidth()
     ) {
         Image(
-            painter = rememberImagePainter(show!!.images[1].url),
+            painter = rememberImagePainter(playlist!!.images[0].url),
             contentDescription = null,
             modifier = Modifier.size(64.dp)
         )
@@ -30,7 +29,7 @@ fun ShowCardSquare(show: Show?, onClick: () -> Unit){
         Column(
             Modifier.align(Alignment.CenterVertically)
         ) {
-            Text(text = show!!.name)
+            Text(text = playlist.name)
         }
     }
 }

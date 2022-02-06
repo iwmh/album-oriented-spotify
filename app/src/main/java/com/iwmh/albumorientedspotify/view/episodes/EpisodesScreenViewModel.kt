@@ -34,7 +34,7 @@ class EpisodesScreenViewModel @Inject constructor (
         PagingConfig(pageSize = 20)
     ){
         EpisodesScreenPagingSource(
-//            savedStateHandle.get(Constants.nav_showId),
+//            savedStateHandle.get(Constants.nav_playlistId),
             showId,
             remoteDataSource,
             injectableConstants
@@ -42,7 +42,7 @@ class EpisodesScreenViewModel @Inject constructor (
     }.flow.cachedIn(viewModelScope)
 
     init {
-        var a: String? = savedStateHandle.get(Constants.nav_showId)
+        var a: String? = savedStateHandle.get(Constants.nav_playlistId)
         var b = ""
     }
 }

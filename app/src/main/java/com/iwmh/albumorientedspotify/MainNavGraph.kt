@@ -36,14 +36,14 @@ fun MainNavGraph(
             LibraryScreen(navController)
         }
         composable(
-            route = "${Screen.Episodes.route}/{" + Constants.nav_showId + "}",
+            route = "${Screen.Episodes.route}/{" + Constants.nav_playlistId + "}",
             arguments = listOf(
-                navArgument(Constants.nav_showId){
+                navArgument(Constants.nav_playlistId){
                     type = NavType.StringType
                 }
             )
         ){ navBackStackEntry ->
-            val showId = navBackStackEntry.arguments?.getString(Constants.nav_showId)
+            val showId = navBackStackEntry.arguments?.getString(Constants.nav_playlistId)
             EpisodesScreen(navController, showId)
         }
         composable(

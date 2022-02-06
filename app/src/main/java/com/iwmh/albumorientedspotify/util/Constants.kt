@@ -8,7 +8,7 @@ class Constants {
         // For
         // ・navigation's argument name
         // ・SavedStateHandle's key you use between destinations.
-        const val nav_showId = "showId"
+        const val nav_playlistId = "playlistId"
 
     const val nav_episodeName = "episodeName"
         const val nav_imageUrl = "imageUrl"

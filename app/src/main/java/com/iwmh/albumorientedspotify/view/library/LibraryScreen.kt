@@ -32,13 +32,13 @@ fun LibraryScreen(navController: NavController) {
             Text(text = "Your library.")
             LazyColumn {
                 items(lazyPagingItems) { item ->
-                    ShowCardSquare(
-                        show = item?.show,
+                    PlaylistCardSquare(
+                        playlist = item,
                     ){  // onClick
-                        // Save "showId" for EpisodesScreen to use.
-                        viewModel.saveShowId(item?.show?.id)
-                        // Navigate to EpisodesScreen.
-                        navController.navigate("${Screen.Episodes.route}/${item?.show?.id}")
+                        // Save "playlistId" for PlaylistScreen to use.
+                        viewModel.saveShowId(item?.id)
+                        // Navigate to PlaylistScreen.
+                        navController.navigate("${Screen.Episodes.route}/${item?.id}")
                     }
                 }
             }

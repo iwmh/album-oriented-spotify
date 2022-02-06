@@ -3,8 +3,8 @@ package com.iwmh.albumorientedspotify.remote_data_source
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.iwmh.albumorientedspotify.repository.model.api.Episode
-import com.iwmh.albumorientedspotify.repository.model.api.ItemShow
 import com.iwmh.albumorientedspotify.repository.model.api.PagingObject
+import com.iwmh.albumorientedspotify.repository.model.api.Playlist
 import com.iwmh.albumorientedspotify.util.InjectableConstants
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -43,10 +43,10 @@ class WebApiClientImpl @Inject constructor(
         }
     }
 
-    // Get User's Saved Shows
-    override suspend fun getUsersSavedShows(initialUrl: String?): PagingObject<ItemShow> {
+    // Get User's Playlists
+    override suspend fun getUsersPlaylists(initialUrl: String?): PagingObject<Playlist> {
 
-        val url = initialUrl ?: injectableConstants.baseUrl + "/me/shows"
+        val url = initialUrl ?: injectableConstants.baseUrl + "/me/playlists"
 
         // Make a request to API endpoint.
         val request = Request.Builder()
@@ -62,8 +62,8 @@ class WebApiClientImpl @Inject constructor(
                 throw Exception(response.toString())
             }
 
-            val tokenType = object : TypeToken<PagingObject<ItemShow>>() {}.type
-            var respString = response.body?.string()
+            val tokenType = object : TypeToken<PagingObject<Playlist>>() {}.type
+            val respString = response.body?.string()
 
             gson.fromJson(
                 respString,

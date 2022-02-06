@@ -8,7 +8,6 @@ import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
 import com.iwmh.albumorientedspotify.remote_data_source.RemoteDataSource
 import com.iwmh.albumorientedspotify.repository.pagingsource.LibraryScreenPagingSource
-import com.iwmh.albumorientedspotify.repository.model.api.ItemShow
 import com.iwmh.albumorientedspotify.util.Constants
 import com.iwmh.albumorientedspotify.util.InjectableConstants
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -38,7 +37,7 @@ class LibraryScreenViewModel @Inject constructor (
     }
 
     fun saveShowId(showId: String?) {
-        savedStateHandle.set(Constants.nav_showId, showId)
+        savedStateHandle.set(Constants.nav_playlistId, showId)
     }
 
     private fun refreshShows() {}
