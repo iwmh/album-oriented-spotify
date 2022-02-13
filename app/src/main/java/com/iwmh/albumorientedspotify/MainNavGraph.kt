@@ -29,9 +29,11 @@ fun MainNavGraph(
         composable(Screen.Home.route){
             HomeScreen(name = "Hiroshi")
         }
+        /*
         composable(Screen.Search.route){
             SearchScreen(name = "Hiroshi")
         }
+        */
         composable(Screen.Library.route){
             LibraryScreen(navController)
         }

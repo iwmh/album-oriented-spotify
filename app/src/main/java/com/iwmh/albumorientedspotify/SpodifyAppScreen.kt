@@ -19,7 +19,7 @@ import com.iwmh.albumorientedspotify.ui.theme.AlbumorientedspotifyTheme
 
 sealed class Screen(val route: String, val name: String, val iconVector: ImageVector?) {
     object Home : Screen("home", "Home", Icons.Default.Home)
-    object Search : Screen("search", "Search", Icons.Default.Search)
+    //object Search : Screen("search", "Search", Icons.Default.Search)
     object Library : Screen("library", "Library", Icons.Default.List)
     object Playlist: Screen("playlist", "Playlist", null)
     object EpisodeDetail: Screen("episodeDetail", "EpisodeDetail", null)
@@ -30,7 +30,7 @@ fun AlbumOrientedSpotifyAppScreen(name: String, viewModel: MainViewModel){
     AlbumorientedspotifyTheme {
         val items = listOf(
             Screen.Home,
-            Screen.Search,
+            //Screen.Search,
             Screen.Library
         )
         // NavController
