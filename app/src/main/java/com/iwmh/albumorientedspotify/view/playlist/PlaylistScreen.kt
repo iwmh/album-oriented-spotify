@@ -34,13 +34,14 @@ fun PlaylistScreen(
         }
     ) {
         Column {
-            Text(text = "Albums.")
-            Text(text = lazyPagingItems.itemCount.toString())
+            Text(text = "...showing only albums in the playlist.")
+            // Text(text = lazyPagingItems.itemCount.toString())
             LazyColumn {
                 items(lazyPagingItems) { trackItem->
                     AlbumCardSquare(
                         albumID = trackItem?.track?.album?.id,
                         albumName = trackItem?.track?.album?.name,
+                        totalTracksInAlbum = trackItem?.track?.album?.total_tracks,
                         imageUrl = trackItem?.track?.album?.images?.get(2)?.url,
                         artists = trackItem?.track?.album?.artists?.map { it.name },
                         releaseDate = trackItem?.track?.album?.release_date,

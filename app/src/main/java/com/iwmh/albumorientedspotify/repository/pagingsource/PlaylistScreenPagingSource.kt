@@ -26,7 +26,8 @@ class PlaylistScreenPagingSource constructor(
             remoteDataSource.refreshTokensIfNecessary()
             val response = remoteDataSource.getPlaylistItems(playlistID, params.key)
             LoadResult.Page(
-                data = response.items,
+                // Filters only album items.
+                data = response.items.filter { it.track.album.album_type == "album" },
                 nextKey = response.next,
                 prevKey = response.previous
             )

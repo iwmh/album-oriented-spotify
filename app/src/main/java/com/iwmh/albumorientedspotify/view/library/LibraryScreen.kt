@@ -29,7 +29,7 @@ fun LibraryScreen(navController: NavController) {
         }
     ) {
         Column {
-            Text(text = "Your library.")
+            Text(text = "Playlists you're following")
             LazyColumn {
                 items(lazyPagingItems) { item ->
                     PlaylistCardSquare(

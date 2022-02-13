@@ -21,6 +21,7 @@ import coil.compose.rememberImagePainter
 fun AlbumCardSquare(
         albumID: String?,
         albumName: String?,
+        totalTracksInAlbum: Int?,
         imageUrl: String?,
         artists: List<String>?,
         releaseDate: String?,
@@ -80,7 +81,7 @@ fun AlbumCardSquare(
                     .border(BorderStroke(2.dp, Color.Black))
                     .padding(all = 5.dp)
                     .fillMaxWidth(),
-                text = " See all tracks",
+                text = " See all $totalTracksInAlbum tracks.",
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
@@ -138,6 +139,7 @@ fun PreviewAlbumCard(){
    AlbumCardSquare(
        albumID = "",
        albumName = "Landmark",
+       totalTracksInAlbum = 12,
        imageUrl = "https://i.scdn.co/image/ab67616d00001e02d8041a531487d0e0e4cfb41f",
        artists = listOf("a", "b"),
        releaseDate = "2022-12-12"
