@@ -41,9 +41,9 @@ fun PlaylistScreen(
                     AlbumCardSquare(
                         albumID = trackItem?.track?.album?.id,
                         albumName = trackItem?.track?.album?.name,
-                        imageUrl = trackItem?.track?.album!!.images[2].url,
-                        artists = trackItem?.track?.album!!.artists.map { it.name },
-                        releaseDate = trackItem?.track?.album!!.release_date,
+                        imageUrl = trackItem?.track?.album?.images?.get(2)?.url,
+                        artists = trackItem?.track?.album?.artists?.map { it.name },
+                        releaseDate = trackItem?.track?.album?.release_date,
                         // Navigate to episode-detail screen.
                         /*
                         onClick = {
