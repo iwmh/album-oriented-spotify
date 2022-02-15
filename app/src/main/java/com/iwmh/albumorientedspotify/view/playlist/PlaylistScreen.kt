@@ -19,9 +19,10 @@ fun PlaylistScreen(
     playlistID: String?
 ) {
     val viewModel: PlaylistScreenViewModel = hiltViewModel()
+    /* ※Changed to get playlist id inside ViewModel by savedStateHandle.get(Constants.nav_playlistId).
     // Hold the Playlist ID for this screen.
-    // TODO: Needs better code here.
     viewModel.playlistID = playlistID
+    */
 
     val lazyPagingItems = viewModel.pagingFlow.collectAsLazyPagingItems()
 
@@ -35,7 +36,6 @@ fun PlaylistScreen(
     ) {
         Column {
             Text(text = "...showing only albums in the playlist.")
-            // Text(text = lazyPagingItems.itemCount.toString())
             LazyColumn {
                 items(lazyPagingItems) { trackItem->
                     AlbumCardSquare(

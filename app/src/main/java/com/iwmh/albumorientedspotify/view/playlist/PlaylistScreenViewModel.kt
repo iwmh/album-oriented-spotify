@@ -27,7 +27,6 @@ class PlaylistScreenViewModel @Inject constructor (
         get() = _isRefreshing.asStateFlow()
 
     // PlaylistID for this page.
-    // TODO: Needs better code here.
     var playlistID: String? = ""
 
     var pagingFlow = Pager(
@@ -42,7 +41,7 @@ class PlaylistScreenViewModel @Inject constructor (
     }.flow.cachedIn(viewModelScope)
 
     init {
-        var a: String? = savedStateHandle.get(Constants.nav_playlistId)
-        var b = ""
+        // Hold playlistID inside ViewModel.
+        playlistID = savedStateHandle.get(Constants.nav_playlistId)
     }
 }
