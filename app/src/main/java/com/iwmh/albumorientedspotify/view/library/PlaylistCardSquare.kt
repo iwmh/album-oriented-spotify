@@ -21,7 +21,7 @@ fun PlaylistCardSquare(playlist: Playlist?, onClick: () -> Unit){
             .fillMaxWidth()
     ) {
         Image(
-            painter = rememberImagePainter(playlist!!.images[0].url),
+            painter = rememberImagePainter(if(playlist!!.images.isEmpty()) "" else playlist!!.images[0].url),
             contentDescription = null,
             modifier = Modifier.size(64.dp)
         )
