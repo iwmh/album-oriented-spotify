@@ -4,6 +4,7 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.iwmh.albumorientedspotify.repository.model.api.PagingObject
 import com.iwmh.albumorientedspotify.repository.model.api.Playlist
+import com.iwmh.albumorientedspotify.repository.model.api.Profile
 import com.iwmh.albumorientedspotify.repository.model.api.TrackItem
 import com.iwmh.albumorientedspotify.util.InjectableConstants
 import kotlinx.coroutines.Dispatchers
@@ -92,6 +93,34 @@ class WebApiClientImpl @Inject constructor(
             }
 
             val tokenType = object : TypeToken<PagingObject<TrackItem>>() {}.type
+            var respString = response.body?.string()
+
+            gson.fromJson(
+                respString,
+                tokenType
+            )
+        }
+    }
+
+    // Get Current User's Profile
+    override suspend fun getCurrentUsersProfile(): Profile {
+        val url = injectableConstants.baseUrl + "/me"
+
+        // Make a request to API endpoint.
+        val request = Request.Builder()
+            .url(url)
+            .header("Content-Type", "application/json")
+            .header("Authorization", "Bearer ${authStateManager.authState.accessToken}")
+            .build()
+
+        return withContext(Dispatchers.IO) {
+
+            val response = okHttpClient.newCall(request).execute()
+            if (!response.isSuccessful) {
+                throw Exception(response.toString())
+            }
+
+            val tokenType = object : TypeToken<Profile>() {}.type
             var respString = response.body?.string()
 
             gson.fromJson(

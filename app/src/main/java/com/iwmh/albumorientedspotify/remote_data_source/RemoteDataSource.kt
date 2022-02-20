@@ -2,6 +2,7 @@ package com.iwmh.albumorientedspotify.remote_data_source
 
 import com.iwmh.albumorientedspotify.repository.model.api.PagingObject
 import com.iwmh.albumorientedspotify.repository.model.api.Playlist
+import com.iwmh.albumorientedspotify.repository.model.api.Profile
 import com.iwmh.albumorientedspotify.repository.model.api.TrackItem
 
 interface RemoteDataSource {
@@ -19,5 +20,8 @@ interface RemoteDataSource {
     suspend fun getUsersPlaylists(url: String?): PagingObject<Playlist>
 
     // Get plsylist's item
-        suspend fun getPlaylistItems(playlistID: String?,  url: String?): PagingObject<TrackItem>
+    suspend fun getPlaylistItems(playlistID: String?,  url: String?): PagingObject<TrackItem>
+
+    // Get Current User's Profile
+    suspend fun getCurrentUsersProfile(): Profile
 }

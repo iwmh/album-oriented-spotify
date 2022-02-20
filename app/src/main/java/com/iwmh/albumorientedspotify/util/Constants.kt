@@ -10,6 +10,9 @@ class Constants {
         // ・SavedStateHandle's key you use between destinations.
         const val nav_playlistId = "playlistId"
 
+        const val user_id = "userID"
+        const val selected_playlists_comma_separated = "selectedPlaylistsCommaSeparated"
+
     const val nav_episodeName = "episodeName"
         const val nav_imageUrl = "imageUrl"
         const val nav_description = "description"
