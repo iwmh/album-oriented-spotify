@@ -13,6 +13,7 @@ import com.iwmh.albumorientedspotify.view.home.HomeScreen
 import com.iwmh.albumorientedspotify.view.library.LibraryScreen
 import com.iwmh.albumorientedspotify.view.playlist.PlaylistScreen
 import com.iwmh.albumorientedspotify.view.search.SearchScreen
+import com.iwmh.albumorientedspotify.view.settings.SettingsScreen
 import java.net.URLDecoder
 import java.nio.charset.StandardCharsets
 
@@ -27,13 +28,11 @@ fun MainNavGraph(
             modifier = modifier
     ){
         composable(Screen.Home.route){
-            HomeScreen(name = "Hiroshi")
+            HomeScreen(navController)
         }
-        /*
-        composable(Screen.Search.route){
-            SearchScreen(name = "Hiroshi")
+        composable(Screen.Settings.route){
+            SettingsScreen(navController)
         }
-        */
         composable(Screen.Library.route){
             LibraryScreen(navController)
         }

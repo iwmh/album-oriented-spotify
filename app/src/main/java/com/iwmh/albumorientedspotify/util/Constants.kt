@@ -11,7 +11,7 @@ class Constants {
         const val nav_playlistId = "playlistId"
 
         const val user_id = "userID"
-        const val selected_playlists_comma_separated = "selectedPlaylistsCommaSeparated"
+        const val selected_playlist_ids_comma_separated = "selectedPlaylistIDsCommaSeparated"
 
     const val nav_episodeName = "episodeName"
         const val nav_imageUrl = "imageUrl"
