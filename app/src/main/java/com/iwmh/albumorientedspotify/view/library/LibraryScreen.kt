@@ -36,7 +36,7 @@ fun LibraryScreen(navController: NavController) {
                         playlist = item,
                     ){  // onClick
                         // Save "playlistId" for PlaylistScreen to use.
-                        viewModel.saveShowId(item?.id)
+                        viewModel.savePlaylistId(item?.id)
                         // Navigate to PlaylistScreen.
                         navController.navigate("${Screen.Playlist.route}/${item?.id}")
                     }

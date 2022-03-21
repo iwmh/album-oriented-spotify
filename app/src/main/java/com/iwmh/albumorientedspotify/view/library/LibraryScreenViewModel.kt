@@ -36,7 +36,8 @@ class LibraryScreenViewModel @Inject constructor (
         refreshShows()
     }
 
-    fun saveShowId(showId: String?) {
+    // Save playlist id to use in the navigated screen.
+    fun savePlaylistId(showId: String?) {
         savedStateHandle.set(Constants.nav_playlistId, showId)
     }
 
