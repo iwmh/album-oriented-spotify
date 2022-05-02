@@ -35,6 +35,7 @@ class WebApiClientImpl @Inject constructor(
                 // Token refresh failed.
                 if (ex != null) {
                     continuation.resumeWithException(ex)
+                    throw ex
                 }
 
                 // Sync authState in storage with the updated authstate.

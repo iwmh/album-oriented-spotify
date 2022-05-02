@@ -1,5 +1,6 @@
 package com.iwmh.albumorientedspotify.view.playlist
 
+import androidx.compose.runtime.*
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -29,6 +30,12 @@ class PlaylistScreenViewModel @Inject constructor (
     // PlaylistID for this page.
     var playlistID: String? = ""
 
+    // Playlist IDs to show below the playlist card.
+    var playlistIDList: List<String> = emptyList()
+
+    // Pair of PlaylistID and Playlist Name to be used to restore playlist name from id.
+    var playlistIDAndName by mutableStateOf<Map<String, String>>(emptyMap())
+
     var pagingFlow = Pager(
         PagingConfig(pageSize = 20)
     ){
@@ -43,5 +50,14 @@ class PlaylistScreenViewModel @Inject constructor (
     init {
         // Hold playlistID inside ViewModel.
         playlistID = savedStateHandle.get(Constants.nav_playlistId)
+
+        // Get playlist IDs stored in the SharedPreferences.
+        var playlistIDsString = remoteDataSource.readData(Constants.selected_playlist_ids_comma_separated)
+        if (playlistIDsString != null) {
+            playlistIDList = playlistIDsString.split(',')
+        }
+
+        // Get playlist's name...
+
     }
 }

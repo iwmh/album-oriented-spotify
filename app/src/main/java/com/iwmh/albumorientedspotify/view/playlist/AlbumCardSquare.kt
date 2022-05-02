@@ -4,15 +4,25 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Button
+import androidx.compose.material.LocalTextStyle
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberImagePainter
@@ -25,13 +35,16 @@ fun AlbumCardSquare(
         imageUrl: String?,
         artists: List<String>?,
         releaseDate: String?,
+        playlistIDList: List<String>
         //onClick: () -> Unit
 ){
     Column(
         //modifier =  Modifier.padding(top = 10.dp).clickable ( onClick = onClick )
         modifier =  Modifier.padding(all = 10.dp)
     ) {
-        Row {
+        Row(
+            modifier = Modifier.height(100.dp)
+        ) {
             Image(
                 painter = rememberImagePainter(imageUrl),
                 contentDescription = null,
@@ -42,12 +55,11 @@ fun AlbumCardSquare(
             ) {
                 Text(
                     text = albumName!!,
-                    fontSize = 25.sp,
+                    maxLines = 1,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(top = 8.dp, bottom = 8.dp, start = 2.dp),
-                    maxLines = 2,
                     overflow = TextOverflow.Ellipsis
                 )
                 if (artists != null) {
@@ -76,6 +88,7 @@ fun AlbumCardSquare(
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) {
+            /*
             Text(
                 modifier = Modifier
                     .border(BorderStroke(2.dp, Color.Black))
@@ -85,11 +98,15 @@ fun AlbumCardSquare(
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
+            */
+            Text(
+                text = " $totalTracksInAlbum tracks.",
+            )
         }
-        Column(
-        ) {
-            YourTargetPlaylistCard(playlistID = "", playlistName = "fav")
-            YourTargetPlaylistCard(playlistID = "", playlistName = "tmp_new")
+        Column{
+            for (playlistID in playlistIDList) {
+                YourTargetPlaylistCard(playlistID = playlistID, playlistName = "")
+            }
         }
     }
 }
@@ -118,7 +135,7 @@ fun YourTargetPlaylistCard(
             maxLines = 1,
         )
         Text(
-            text = "No tracks found.",
+            text = "",
             modifier = Modifier
                 .padding(5.dp)
                 .width(180.dp)
@@ -142,6 +159,7 @@ fun PreviewAlbumCard(){
        totalTracksInAlbum = 12,
        imageUrl = "https://i.scdn.co/image/ab67616d00001e02d8041a531487d0e0e4cfb41f",
        artists = listOf("a", "b"),
-       releaseDate = "2022-12-12"
+       releaseDate = "2022-12-12",
+       playlistIDList = emptyList()
    )
 }
