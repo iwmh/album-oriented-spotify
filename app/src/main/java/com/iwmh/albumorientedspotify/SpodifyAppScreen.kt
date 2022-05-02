@@ -22,7 +22,6 @@ sealed class Screen(val route: String, val name: String, val iconVector: ImageVe
     //object Search : Screen("search", "Search", Icons.Default.Search)
     object Library : Screen("library", "Library", Icons.Default.List)
     object Playlist: Screen("playlist", "Playlist", null)
-    object EpisodeDetail: Screen("episodeDetail", "EpisodeDetail", null)
     object Settings: Screen("settings", "Settings", null)
 }
 

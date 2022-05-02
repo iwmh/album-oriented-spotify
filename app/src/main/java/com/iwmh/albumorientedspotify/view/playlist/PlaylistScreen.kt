@@ -49,23 +49,6 @@ fun PlaylistScreen(
                         artists = trackItem?.track?.album?.artists?.map { it.name },
                         releaseDate = trackItem?.track?.album?.release_date,
                         playlistIDList = playlistIDList
-                        // Navigate to episode-detail screen.
-                        /*
-                        onClick = {
-                            val encodedImageUrl
-                                    = URLEncoder.encode(trackItem!!.images[2].url, StandardCharsets.UTF_8.toString())
-                            val encodedDescription
-                                    = URLEncoder.encode(trackItem!!.description, StandardCharsets.UTF_8.toString())
-                            navController.navigate(
-                                "${Screen.EpisodeDetail.route}/" +
-                                        "${trackItem!!.name}/" +
-                                        "${encodedImageUrl}/" +
-                                        "${encodedDescription}/" +
-                                        "${trackItem!!.duration_ms}/" +
-                                        "${trackItem!!.release_date}"
-                            )
-                        }
-                         */
                     )
                 }
             }
