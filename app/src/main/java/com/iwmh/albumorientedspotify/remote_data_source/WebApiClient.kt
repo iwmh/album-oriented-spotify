@@ -4,6 +4,7 @@ import com.iwmh.albumorientedspotify.repository.model.api.PagingObject
 import com.iwmh.albumorientedspotify.repository.model.api.Playlist
 import com.iwmh.albumorientedspotify.repository.model.api.Profile
 import com.iwmh.albumorientedspotify.repository.model.api.TrackItem
+import kotlinx.coroutines.Deferred
 
 interface WebApiClient {
     // Make sure to call this before every API call.
@@ -17,4 +18,7 @@ interface WebApiClient {
 
     // Get Current User's Profile
     suspend fun getCurrentUsersProfile(): Profile
+
+    // Get Playlist
+    fun getPlaylistAsync(playlistID: String?): Deferred<Playlist>
 }

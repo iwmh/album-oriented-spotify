@@ -31,6 +31,9 @@ fun PlaylistScreen(
     // for playlists to show under the playlist card.
     val playlistIDList = viewModel.playlistIDList
 
+    // playlist id and name list.
+    val playlistIDAndNameList = viewModel.playlistIDAndName
+
     SwipeRefresh(
         state = rememberSwipeRefreshState(isRefreshing),
         onRefresh = {
@@ -48,7 +51,8 @@ fun PlaylistScreen(
                         imageUrl = trackItem?.track?.album?.images?.get(2)?.url,
                         artists = trackItem?.track?.album?.artists?.map { it.name },
                         releaseDate = trackItem?.track?.album?.release_date,
-                        playlistIDList = playlistIDList
+                        playlistIDList = playlistIDList,
+                        playlistIDAndNameList = playlistIDAndNameList,
                     )
                 }
             }

@@ -4,6 +4,7 @@ import com.iwmh.albumorientedspotify.repository.model.api.PagingObject
 import com.iwmh.albumorientedspotify.repository.model.api.Playlist
 import com.iwmh.albumorientedspotify.repository.model.api.Profile
 import com.iwmh.albumorientedspotify.repository.model.api.TrackItem
+import kotlinx.coroutines.Deferred
 
 interface RemoteDataSource {
 
@@ -24,4 +25,7 @@ interface RemoteDataSource {
 
     // Get Current User's Profile
     suspend fun getCurrentUsersProfile(): Profile
+
+    // Get playlsit
+    fun getPlaylistAsync(playlistID: String?): Deferred<Playlist>
 }

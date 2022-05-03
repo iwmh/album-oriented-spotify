@@ -7,8 +7,7 @@ import com.iwmh.albumorientedspotify.repository.model.api.Playlist
 import com.iwmh.albumorientedspotify.repository.model.api.Profile
 import com.iwmh.albumorientedspotify.repository.model.api.TrackItem
 import com.iwmh.albumorientedspotify.util.InjectableConstants
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import java.lang.Exception
@@ -50,16 +49,9 @@ class WebApiClientImpl @Inject constructor(
 
         val url = initialUrl ?: injectableConstants.baseUrl + "/me/playlists"
 
-        // Make a request to API endpoint.
-        val request = Request.Builder()
-            .url(url)
-            .header("Content-Type", "application/json")
-            .header("Authorization", "Bearer ${authStateManager.authState.accessToken}")
-            .build()
-
         return withContext(Dispatchers.IO) {
 
-            val response = okHttpClient.newCall(request).execute()
+            val response = okHttpClient.newCall(createRequest(url)).execute()
             if (!response.isSuccessful) {
                 throw Exception(response.toString())
             }
@@ -79,16 +71,9 @@ class WebApiClientImpl @Inject constructor(
 
         val url = initialUrl ?: injectableConstants.baseUrl + "/playlists/" + playlistID + "/tracks"
 
-        // Make a request to API endpoint.
-        val request = Request.Builder()
-            .url(url)
-            .header("Content-Type", "application/json")
-            .header("Authorization", "Bearer ${authStateManager.authState.accessToken}")
-            .build()
-
         return withContext(Dispatchers.IO) {
 
-            val response = okHttpClient.newCall(request).execute()
+            val response = okHttpClient.newCall(createRequest(url)).execute()
             if (!response.isSuccessful) {
                 throw Exception(response.toString())
             }
@@ -107,16 +92,9 @@ class WebApiClientImpl @Inject constructor(
     override suspend fun getCurrentUsersProfile(): Profile {
         val url = injectableConstants.baseUrl + "/me"
 
-        // Make a request to API endpoint.
-        val request = Request.Builder()
-            .url(url)
-            .header("Content-Type", "application/json")
-            .header("Authorization", "Bearer ${authStateManager.authState.accessToken}")
-            .build()
-
         return withContext(Dispatchers.IO) {
 
-            val response = okHttpClient.newCall(request).execute()
+            val response = okHttpClient.newCall(createRequest(url)).execute()
             if (!response.isSuccessful) {
                 throw Exception(response.toString())
             }
@@ -129,6 +107,38 @@ class WebApiClientImpl @Inject constructor(
                 tokenType
             )
         }
+    }
+
+    // Get playlist's info
+    override fun getPlaylistAsync(playlistID: String?): Deferred<Playlist>{
+
+        val url = injectableConstants.baseUrl + "/playlists/" + playlistID + "?fields=name%2C%20id"
+
+        return GlobalScope.async(Dispatchers.IO) {
+
+            val response = okHttpClient.newCall(createRequest(url)).execute()
+            if (!response.isSuccessful) {
+                // When request failed.
+                throw Exception(response.toString())
+            }
+
+            val tokenType = object : TypeToken<Playlist>() {}.type
+            var respString = response.body?.string()
+
+            gson.fromJson(
+                respString,
+                tokenType
+            )
+        }
+    }
+
+    // Create request object
+    private fun createRequest(url: String): Request {
+        return Request.Builder()
+            .url(url)
+            .header("Content-Type", "application/json")
+            .header("Authorization", "Bearer ${authStateManager.authState.accessToken}")
+            .build()
     }
 
 }
