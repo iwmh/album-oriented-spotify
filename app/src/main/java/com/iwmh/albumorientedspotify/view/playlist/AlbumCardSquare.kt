@@ -133,7 +133,7 @@ fun YourTargetPlaylistCard(
     ) {
         Text(
             text = playlistName ?: "",
-            fontSize = 18.sp,
+            fontSize = 25.sp,
             fontWeight = FontWeight.Bold,
             modifier = Modifier
                 .padding(5.dp)
@@ -151,7 +151,7 @@ fun YourTargetPlaylistCard(
             onClick = { /*TODO*/ },
         ) {
             Text(
-                text = "Add to playlist",
+                text = "Add all tracks.",
             )
         }
     }

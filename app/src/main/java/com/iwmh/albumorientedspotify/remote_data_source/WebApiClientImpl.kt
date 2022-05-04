@@ -46,10 +46,11 @@ class WebApiClientImpl @Inject constructor(
 
     // Get User's Playlists
     override suspend fun getUsersPlaylists(initialUrl: String?): PagingObject<Playlist> {
-
         val url = initialUrl ?: injectableConstants.baseUrl + "/me/playlists"
 
         return withContext(Dispatchers.IO) {
+
+            refreshTokensIfNecessary()
 
             val response = okHttpClient.newCall(createRequest(url)).execute()
             if (!response.isSuccessful) {
@@ -68,10 +69,11 @@ class WebApiClientImpl @Inject constructor(
 
     // Get Playlist's items
     override suspend fun getPlaylistItems(playlistID: String?, initialUrl: String?): PagingObject<TrackItem> {
-
         val url = initialUrl ?: injectableConstants.baseUrl + "/playlists/" + playlistID + "/tracks"
 
         return withContext(Dispatchers.IO) {
+
+            refreshTokensIfNecessary()
 
             val response = okHttpClient.newCall(createRequest(url)).execute()
             if (!response.isSuccessful) {
@@ -94,6 +96,8 @@ class WebApiClientImpl @Inject constructor(
 
         return withContext(Dispatchers.IO) {
 
+            refreshTokensIfNecessary()
+
             val response = okHttpClient.newCall(createRequest(url)).execute()
             if (!response.isSuccessful) {
                 throw Exception(response.toString())
@@ -111,10 +115,11 @@ class WebApiClientImpl @Inject constructor(
 
     // Get playlist's info
     override fun getPlaylistAsync(playlistID: String?): Deferred<Playlist>{
-
         val url = injectableConstants.baseUrl + "/playlists/" + playlistID + "?fields=name%2C%20id"
 
         return GlobalScope.async(Dispatchers.IO) {
+
+            refreshTokensIfNecessary()
 
             val response = okHttpClient.newCall(createRequest(url)).execute()
             if (!response.isSuccessful) {

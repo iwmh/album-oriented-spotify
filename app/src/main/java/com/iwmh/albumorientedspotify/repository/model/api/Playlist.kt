@@ -15,4 +15,5 @@ data class Playlist(
     val tracks: Tracks,
     val type: String,
     val uri: String
-)
+) {
+}
