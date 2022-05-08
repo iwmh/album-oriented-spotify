@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberImagePainter
+import com.iwmh.albumorientedspotify.repository.model.api.Playlist
 
 @Composable
 fun AlbumCardSquare(
@@ -35,7 +36,8 @@ fun AlbumCardSquare(
         imageUrl: String?,
         artists: List<String>?,
         releaseDate: String?,
-        playlistIDList: List<String>
+        playlistIDList: List<String>,
+        playlistIDAndNameList: List<Playlist>
         //onClick: () -> Unit
 ){
     Column(
@@ -105,7 +107,12 @@ fun AlbumCardSquare(
         }
         Column{
             for (playlistID in playlistIDList) {
-                YourTargetPlaylistCard(playlistID = playlistID, playlistName = "")
+                YourTargetPlaylistCard(
+                    playlistID = playlistID,
+                    playlistName = playlistIDAndNameList.find {
+                        it.id == playlistID
+                    }?.name,
+                )
             }
         }
     }
@@ -114,7 +121,7 @@ fun AlbumCardSquare(
 @Composable
 fun YourTargetPlaylistCard(
     playlistID: String,
-    playlistName: String,
+    playlistName: String?,
     //onClick: () -> Unit
 ){
     Row(
@@ -125,8 +132,8 @@ fun YourTargetPlaylistCard(
         horizontalArrangement = Arrangement.Start
     ) {
         Text(
-            text = playlistName,
-            fontSize = 18.sp,
+            text = playlistName ?: "",
+            fontSize = 25.sp,
             fontWeight = FontWeight.Bold,
             modifier = Modifier
                 .padding(5.dp)
@@ -144,7 +151,7 @@ fun YourTargetPlaylistCard(
             onClick = { /*TODO*/ },
         ) {
             Text(
-                text = "Add All",
+                text = "Add all tracks.",
             )
         }
     }
@@ -160,6 +167,7 @@ fun PreviewAlbumCard(){
        imageUrl = "https://i.scdn.co/image/ab67616d00001e02d8041a531487d0e0e4cfb41f",
        artists = listOf("a", "b"),
        releaseDate = "2022-12-12",
-       playlistIDList = emptyList()
+       playlistIDList = emptyList(),
+       playlistIDAndNameList = emptyList()
    )
 }
