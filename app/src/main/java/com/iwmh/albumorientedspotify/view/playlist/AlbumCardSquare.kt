@@ -129,29 +129,26 @@ fun YourTargetPlaylistCard(
             .fillMaxWidth()
             .padding(bottom = 5.dp)
             .border(BorderStroke(0.5.dp, Color.Black)),
-        horizontalArrangement = Arrangement.Start
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         Text(
             text = playlistName ?: "",
             fontSize = 25.sp,
             fontWeight = FontWeight.Bold,
             modifier = Modifier
-                .padding(5.dp)
-                .width(80.dp),
+                .padding(start = 8.dp),
             overflow = TextOverflow.Ellipsis,
             maxLines = 1,
-        )
-        Text(
-            text = "",
-            modifier = Modifier
-                .padding(5.dp)
-                .width(180.dp)
+            textAlign = TextAlign.Start,
         )
         Button(
             onClick = { /*TODO*/ },
+            modifier = Modifier.padding(end = 8.dp)
         ) {
             Text(
-                text = "Add all tracks.",
+                text = "Add all tracks",
+                fontSize = 14.sp,
             )
         }
     }
