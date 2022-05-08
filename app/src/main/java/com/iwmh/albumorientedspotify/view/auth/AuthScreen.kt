@@ -16,6 +16,6 @@ fun AuthScreen(
             launcher.launch(authIntent)
         },
     ) {
-        Text(text = "auth")
+        Text(text = "Log in with Spotify")
     }
 }
