@@ -1,9 +1,6 @@
 package com.iwmh.albumorientedspotify.remote_data_source
 
-import com.iwmh.albumorientedspotify.repository.model.api.PagingObject
-import com.iwmh.albumorientedspotify.repository.model.api.Playlist
-import com.iwmh.albumorientedspotify.repository.model.api.Profile
-import com.iwmh.albumorientedspotify.repository.model.api.TrackItem
+import com.iwmh.albumorientedspotify.repository.model.api.*
 import kotlinx.coroutines.Deferred
 import javax.inject.Inject
 
@@ -35,9 +32,19 @@ class RemoteDataSourceImpl @Inject constructor(
         return apiClient.getPlaylistItems(playlistID, url)
     }
 
+    // Get Album's items
+    override suspend fun getAlbumItems(albumID: String?, url: String?): PagingObject<Track> {
+        return apiClient.getAlbumItems(albumID, url)
+    }
+
     // Get Current User's Profile
     override suspend fun getCurrentUsersProfile(): Profile{
         return apiClient.getCurrentUsersProfile()
+    }
+
+    // Add items to playlist
+    override suspend fun addItemsToPlaylist(playlistID: String, listOfSpotifyUris: List<String>): PostResponse{
+        return apiClient.addItemsToPlaylist(playlistID, listOfSpotifyUris)
     }
 
     // Get playlsit

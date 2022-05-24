@@ -2,14 +2,17 @@ package com.iwmh.albumorientedspotify.remote_data_source
 
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.iwmh.albumorientedspotify.repository.model.api.PagingObject
-import com.iwmh.albumorientedspotify.repository.model.api.Playlist
-import com.iwmh.albumorientedspotify.repository.model.api.Profile
-import com.iwmh.albumorientedspotify.repository.model.api.TrackItem
+import com.iwmh.albumorientedspotify.repository.model.api.*
 import com.iwmh.albumorientedspotify.util.InjectableConstants
 import kotlinx.coroutines.*
+import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
+import org.json.JSONArray
+import org.json.JSONObject
 import java.lang.Exception
 import javax.inject.Inject
 import kotlin.coroutines.resume
@@ -90,6 +93,29 @@ class WebApiClientImpl @Inject constructor(
         }
     }
 
+    // Get Album's items
+    override suspend fun getAlbumItems(albumID: String?, initialUrl: String?): PagingObject<Track> {
+        val url = initialUrl ?: injectableConstants.baseUrl + "/albums/" + albumID + "/tracks?limit=50"
+
+        return withContext(Dispatchers.IO) {
+
+            refreshTokensIfNecessary()
+
+            val response = okHttpClient.newCall(createRequest(url)).execute()
+            if (!response.isSuccessful) {
+                throw Exception(response.toString())
+            }
+
+            val tokenType = object : TypeToken<PagingObject<Track>>() {}.type
+            var respString = response.body?.string()
+
+            gson.fromJson(
+                respString,
+                tokenType
+            )
+        }
+    }
+
     // Get Current User's Profile
     override suspend fun getCurrentUsersProfile(): Profile {
         val url = injectableConstants.baseUrl + "/me"
@@ -137,12 +163,62 @@ class WebApiClientImpl @Inject constructor(
         }
     }
 
+    // Add items to playlist
+    override suspend fun addItemsToPlaylist(playlistID: String, listOfSpotifyUris: List<String>): PostResponse {
+        val url = injectableConstants.baseUrl + "/playlists/" + playlistID + "/tracks"
+
+        val jsonArray = JSONArray()
+        listOfSpotifyUris.forEach{
+            jsonArray.put(it)
+        }
+
+        // create json object for request body
+        val json = JSONObject()
+
+        json.put("uris", jsonArray)
+
+        // create request body
+        val postBody =
+            json.toString().toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
+
+        // create post request
+        var request = createPostRequest(url, postBody)
+
+        return withContext(Dispatchers.IO) {
+
+            refreshTokensIfNecessary()
+
+            val response = okHttpClient.newCall(request).execute()
+            if (!response.isSuccessful) {
+                throw Exception(response.toString())
+            }
+
+            val tokenType = object : TypeToken<Profile>() {}.type
+            var respString = response.body?.string()
+
+            gson.fromJson(
+                respString,
+                tokenType
+            )
+        }
+    }
+
     // Create request object
     private fun createRequest(url: String): Request {
         return Request.Builder()
             .url(url)
             .header("Content-Type", "application/json")
             .header("Authorization", "Bearer ${authStateManager.authState.accessToken}")
+            .build()
+    }
+
+    // Create request object
+    private fun createPostRequest(url: String, requestBody: RequestBody): Request {
+        return Request.Builder()
+            .url(url)
+            .header("Content-Type", "application/json")
+            .header("Authorization", "Bearer ${authStateManager.authState.accessToken}")
+            .post(requestBody)
             .build()
     }
 

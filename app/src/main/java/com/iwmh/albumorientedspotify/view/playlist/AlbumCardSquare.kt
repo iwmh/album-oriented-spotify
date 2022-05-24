@@ -1,5 +1,7 @@
 package com.iwmh.albumorientedspotify.view.playlist
 
+import android.content.Context
+import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
@@ -14,6 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
@@ -25,11 +28,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberImagePainter
 import com.iwmh.albumorientedspotify.repository.model.api.Playlist
 
 @Composable
 fun AlbumCardSquare(
+        context: Context,
         albumID: String?,
         albumName: String?,
         totalTracksInAlbum: Int?,
@@ -37,8 +42,7 @@ fun AlbumCardSquare(
         artists: List<String>?,
         releaseDate: String?,
         playlistIDList: List<String>,
-        playlistIDAndNameList: List<Playlist>
-        //onClick: () -> Unit
+        playlistIDAndNameList: List<Playlist>,
 ){
     Column(
         //modifier =  Modifier.padding(top = 10.dp).clickable ( onClick = onClick )
@@ -90,17 +94,6 @@ fun AlbumCardSquare(
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            /*
-            Text(
-                modifier = Modifier
-                    .border(BorderStroke(2.dp, Color.Black))
-                    .padding(all = 5.dp)
-                    .fillMaxWidth(),
-                text = " See all $totalTracksInAlbum tracks.",
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
-            )
-            */
             Text(
                 text = " $totalTracksInAlbum tracks.",
             )
@@ -108,6 +101,8 @@ fun AlbumCardSquare(
         Column{
             for (playlistID in playlistIDList) {
                 YourTargetPlaylistCard(
+                    context = context,
+                    albumID = albumID,
                     playlistID = playlistID,
                     playlistName = playlistIDAndNameList.find {
                         it.id == playlistID
@@ -120,10 +115,12 @@ fun AlbumCardSquare(
 
 @Composable
 fun YourTargetPlaylistCard(
+    context: Context,
+    albumID: String?,
     playlistID: String,
     playlistName: String?,
-    //onClick: () -> Unit
 ){
+    val viewModel: PlaylistScreenViewModel = hiltViewModel()
     Row(
         Modifier
             .fillMaxWidth()
@@ -143,7 +140,9 @@ fun YourTargetPlaylistCard(
             textAlign = TextAlign.Start,
         )
         Button(
-            onClick = { /*TODO*/ },
+            onClick = {
+                viewModel.addAllTracksInAlbumToPlaylist(albumID!!, playlistID, playlistName!!)
+                },
             modifier = Modifier.padding(end = 8.dp)
         ) {
             Text(
@@ -154,6 +153,7 @@ fun YourTargetPlaylistCard(
     }
 }
 
+/*
 @Preview
 @Composable
 fun PreviewAlbumCard(){
@@ -168,3 +168,4 @@ fun PreviewAlbumCard(){
        playlistIDAndNameList = emptyList()
    )
 }
+ */
