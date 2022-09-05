@@ -34,7 +34,7 @@ class SettingsScreenViewModel @Inject constructor (
 ): ViewModel() {
 
     // UI state exposed to the UI
-    private val _uiState = MutableStateFlow(SettingsUiState(loading = true))
+    private val _uiState = MutableStateFlow(SettingsUiState(loading = false))
     val uiState: StateFlow<SettingsUiState> = _uiState.asStateFlow()
 
     // Refreshing flag for SwipeRefresh of Accompanist.
@@ -67,9 +67,11 @@ class SettingsScreenViewModel @Inject constructor (
     }
 
     private fun refreshAll(){
-        _uiState.update { it.copy(loading = true) }
+        //_uiState.update { it.copy(loading = true) }
 
         viewModelScope.launch {
+            _uiState.update { it.copy(loading = true) }
+
             val storedEnabledPlaylistIDs = remoteDataSource.readData(Constants.selected_playlist_ids_comma_separated)
             val storedUserID = remoteDataSource.readData(Constants.user_id)
             _uiState.update {
