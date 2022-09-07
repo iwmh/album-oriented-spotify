@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.ActivityResultLauncher
@@ -14,6 +15,8 @@ import com.iwmh.albumorientedspotify.repository.model.Secret
 import com.iwmh.albumorientedspotify.util.Util
 import com.iwmh.albumorientedspotify.view.auth.AuthScreen
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import net.openid.appauth.*
@@ -53,12 +56,22 @@ class MainActivity : ComponentActivity() {
             // Clear the state after confirming you received the expected state.
             mainViewModel.setStateValue("")
 
-            // Exchange the authorization code
-            mainViewModel.exchangeAuthorizationCode(resp)
+            MainScope().launch {
 
-            // Shows the main screen.
-            setContent {
-                AlbumOrientedSpotifyAppScreen(name = "Hiroshi", viewModel = mainViewModel)
+                // Show a toast
+                // ...showing a indicator is a better option.
+                Toast.makeText(applicationContext, "Please wait a minute ...", Toast.LENGTH_LONG).show()
+
+                // Exchange the authorization code
+                val result = mainViewModel.exchangeAuthorizationCode(resp)
+                if(result == ""){
+                    // Shows the main screen.
+                    setContent {
+                        AlbumOrientedSpotifyAppScreen(viewModel = mainViewModel)
+                    }
+                } else {
+                    Toast.makeText(applicationContext, result, Toast.LENGTH_SHORT).show()
+                }
             }
         }
 
@@ -87,7 +100,7 @@ class MainActivity : ComponentActivity() {
         if(mainViewModel.isAuthorized()){
             // If the user's already logged in, show the home page.
             setContent {
-                AlbumOrientedSpotifyAppScreen(name = "Hiroshi", viewModel = mainViewModel)
+                AlbumOrientedSpotifyAppScreen(viewModel = mainViewModel)
             }
         } else {
             // Otherwise, show the login page.

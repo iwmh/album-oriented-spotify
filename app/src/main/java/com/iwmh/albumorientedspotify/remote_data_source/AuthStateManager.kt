@@ -5,9 +5,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import com.iwmh.albumorientedspotify.util.Constants
+import kotlinx.coroutines.suspendCancellableCoroutine
 import net.openid.appauth.*
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
 
 @Singleton
 class AuthStateManager @Inject constructor(
@@ -100,21 +103,26 @@ class AuthStateManager @Inject constructor(
     }
 
     // Exchange AuthorizationCode with AccessToken/RefreshToken.
-    fun exchangeAuthorizationCode(resp: AuthorizationResponse){
+    suspend fun exchangeAuthorizationCode(resp: AuthorizationResponse): String{
 
-        // Exchange the authorization code
-        authService.performTokenRequest(
-            resp.createTokenExchangeRequest()
-        ) { tokenResp, tokenEx ->
-            // Token exchange failed, check ex for detail.
-            if (tokenResp == null) {
-                throw  Exception("Token exchange failed. " + tokenEx.toString())
+        return suspendCoroutine { continuation ->
+
+            // Exchange the authorization code
+            authService.performTokenRequest(
+                resp.createTokenExchangeRequest()
+            ) { tokenResp, tokenEx ->
+                // Token exchange failed, check ex for detail.
+                if (tokenResp == null) {
+                    //throw  Exception("Token exchange failed. " + tokenEx.toString())
+                    continuation.resume("Token exchange failed. " + tokenEx.toString())
+                }
+                // Token exchange succeeded.
+                // Update the AuthState
+                updateAuthStateAndSharedPreferences(tokenResp, tokenEx)
+
+                // go on...
+                continuation.resume("")
             }
-            // Token exchange succeeded.
-            // Update the AuthState
-            updateAuthStateAndSharedPreferences(tokenResp, tokenEx)
-
-            // go on...
 
         }
     }

@@ -62,8 +62,8 @@ class MainViewModel @Inject constructor(
     }
 
     // Exchange AuthorizationCode with AccessToken/RefreshToken.
-    fun exchangeAuthorizationCode(resp: AuthorizationResponse){
-        authStateManager.exchangeAuthorizationCode(resp)
+    suspend fun exchangeAuthorizationCode(resp: AuthorizationResponse): String{
+        return authStateManager.exchangeAuthorizationCode(resp)
     }
 
 }

@@ -6,7 +6,6 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.List
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -26,7 +25,7 @@ sealed class Screen(val route: String, val name: String, val iconVector: ImageVe
 }
 
 @Composable
-fun AlbumOrientedSpotifyAppScreen(name: String, viewModel: MainViewModel){
+fun AlbumOrientedSpotifyAppScreen(viewModel: MainViewModel){
     AlbumorientedspotifyTheme {
         val items = listOf(
             Screen.Home,
