@@ -15,7 +15,6 @@ fun AuthScreen(
     authIntent: Intent,
     launcher: ActivityResultLauncher<Intent>
 ){
-    var enabled by remember{ mutableStateOf(true)}
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
@@ -23,9 +22,7 @@ fun AuthScreen(
         Button(
             onClick = {
                 launcher.launch(authIntent)
-                enabled = false
             },
-            enabled = enabled
         ) {
             Text(text = "Log In To Spotify To Get Started")
         }
